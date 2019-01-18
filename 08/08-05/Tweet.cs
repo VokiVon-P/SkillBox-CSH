@@ -10,7 +10,8 @@ namespace ConsoleApp1
     {
         public static string Cut(string inputText, int maxLength)
         {
-            return (!string.IsNullOrWhiteSpace(inputText) && inputText.Length > maxLength) ? inputText.Remove(maxLength) : inputText;
+            int idx = maxLength < 0 ? 0 : maxLength;
+            return (!string.IsNullOrWhiteSpace(inputText) && inputText.Length > idx) ? inputText.Remove(idx) : inputText;
         }
 
     }

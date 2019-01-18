@@ -22,5 +22,35 @@ namespace UnitTest_08_05
             testtxt = StringHelper.Cut(bigtxt, length);
             Assert.AreEqual(normaltxt, testtxt);
         }
+
+        [TestMethod]
+        public void TestEmptyStr()
+        {
+            var res = StringHelper.Cut("", 7);
+            Assert.AreEqual("", res);
+        }
+
+        [TestMethod]
+        public void TestNullStr()
+        {
+            var res = StringHelper.Cut(null, 7);
+            Assert.AreEqual(null, res);
+        }
+
+        [TestMethod]
+        public void TestZeroLength()
+        {
+            var res = StringHelper.Cut("12345", 0);
+            Assert.AreEqual("", res);
+        }
+
+        [TestMethod]
+        public void TestLessZeroLength()
+        {
+            var res = StringHelper.Cut("12345", -1);
+            Assert.AreEqual("", res);
+        }
+
+
     }
 }
