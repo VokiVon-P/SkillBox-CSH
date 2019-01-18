@@ -50,7 +50,5 @@ namespace UnitTest_08_05
             var res = StringHelper.Cut("12345", -1);
             Assert.AreEqual("", res);
         }
-
-
     }
 }
