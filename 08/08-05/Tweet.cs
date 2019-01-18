@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ConsoleApp1
 {
-    static class StringHelper
+    public static class StringHelper
     {
         public static string Cut(string inputText, int maxLength)
         {
