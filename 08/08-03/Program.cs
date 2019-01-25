@@ -5,6 +5,7 @@ using System.Diagnostics;
 using System.Linq;
 using TweetSharp;
 using System.Collections.Generic;
+using System.Net;
 
 namespace TwitterConsole
 {
@@ -12,34 +13,67 @@ namespace TwitterConsole
     {
         
 
+        /// <summary>
+        /// 
+        /// </summary>
         static void Main()
         {
-            
 
-            // поиск всех хэш тегов в твитте и вывод их под твиттом
-            const string pattern = "#[\\w]+";
-            // поиск упоминаний авторов, для проверки, тк хэштегов у меня в ленте часто нет совсем
-            //const string pattern = "@[\\w]+";
+
 
             TwitterService service;
             List<TwitterStatus> tweets;
 
+            TwitterService InitTwitter()
+            {
+                TwitterService result = null;
+                string testtxt = "OK";
+                try
+                {
+                    // ключи хранятся в специальном файле для исключения из Git
+                    var serv = new TwitterService(TwKeys.consumerKey, TwKeys.consumerSecret);
+                    
+                    var requestToken = serv.GetRequestToken();
+                    //if (serv.Response.StatusCode != HttpStatusCode.OK)
+                    //{
+                    //    testtxt = $"Ошибка при запросе токена безопасности: GetRequestToken() - {serv.Response.StatusDescription}";
+                    //    throw new Exception(testtxt);
+                    //}
+
+                    try
+                    {
+                        var uri = serv.GetAuthorizationUri(requestToken);
+                        Process.Start(uri.ToString());
+
+                        var verifier = Console.ReadLine();
+                        var access = serv.GetAccessToken(requestToken, verifier);
+                        if (access.UserId == 0) throw new Exception(access.ToString() + " : " + access.UserId.ToString());
+
+                        serv.AuthenticateWith(access.Token, access.TokenSecret);
+                    }
+                    catch (Exception e)
+                    {
+
+                        testtxt = $"Ошибка при аутентификации: Возможно неверный введен ответный ключ - {e.ToString()}";
+                        throw new Exception(testtxt);
+                    }
+                   
+
+                    return result;
+                }
+                finally
+                {
+                    // вывод тестовой информации о результате инициализации
+                    // вне зависимости от результата 
+                    Console.WriteLine($"Инициализация сервиса Twitter: {testtxt}");
+                }
+                
+            }
+
             // защищаем вызовы интернет сервисов и от некорректного ввода ключа
             try
             {
-
-                // ключи хранятся в специальном файле для исключения из Git
-                service = new TwitterService(TwKeys.consumerKey, TwKeys.consumerSecret);
-
-                var requestToken = service.GetRequestToken();
-
-                var uri = service.GetAuthorizationUri(requestToken);
-                Process.Start(uri.ToString());
-
-                var verifier = Console.ReadLine();
-                var access = service.GetAccessToken(requestToken, verifier);
-
-                service.AuthenticateWith(access.Token, access.TokenSecret);
+                service = InitTwitter();
 
                 tweets = service.ListTweetsOnHomeTimeline(new ListTweetsOnHomeTimelineOptions()).ToList();
             }
@@ -61,7 +95,12 @@ namespace TwitterConsole
                 Console.WriteLine(tweetTxt);
 
                 #region REGEX
-                
+                // поиск всех хэш тегов в твитте и вывод их под твиттом
+                const string pattern = "#[\\w]+";
+                // поиск упоминаний авторов, для проверки, тк хэштегов у меня в ленте часто нет совсем
+                //const string pattern = "@[\\w]+";
+
+
                 var matches = Regex.Matches(tweetTxt, pattern);
                 foreach (var match in matches)
                 {
@@ -107,5 +146,10 @@ namespace TwitterConsole
             Console.WriteLine(builder);
             Console.ReadKey();
         }
+
+        
+
+
+
     }
 }
