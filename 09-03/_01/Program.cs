@@ -5,6 +5,7 @@ using System.Diagnostics;
 using System.Linq;
 using TweetSharp;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Net;
 
 namespace TwitterConsole
@@ -18,18 +19,13 @@ namespace TwitterConsole
         static void Main()
         {
 
-
-
-            TwitterService service;
-            List<TwitterStatus> tweets;
-
             TwitterService InitTwitter()
             {
                 string testtxt = "OK";
                 try
                 {
                     // ключи хранятся в специальном файле для исключения из Git
-                    var serv = new TwitterService(TwKeys.consumerKey, TwKeys.consumerSecret);
+                    var serv = new TwitterService(TwKeys.ConsumerKey, TwKeys.ConsumerSecret);
                     
                     var requestToken = serv.GetRequestToken();
                     if (serv.Response.StatusCode != HttpStatusCode.OK)
@@ -43,7 +39,9 @@ namespace TwitterConsole
                         var uri = serv.GetAuthorizationUri(requestToken);
                         Process.Start(uri.ToString());
 
+                        Console.Write("Введите код авторизации: ");
                         var verifier = Console.ReadLine();
+                        
                         var access = serv.GetAccessToken(requestToken, verifier);
                         if (access.UserId == 0) throw new Exception($"{access} : {access.UserId}");
 
@@ -71,6 +69,11 @@ namespace TwitterConsole
             // защищаем вызовы интернет сервисов и от некорректного ввода ключа
             try
             {
+                TwitterService service;
+                List<TwitterStatus> tweets;
+                List<string> trendsList = new List<string>();
+
+                #region InitTwitter
                 try
                 {
                     service = InitTwitter();
@@ -83,8 +86,11 @@ namespace TwitterConsole
                     throw new TwitterException($"Ошибка инициализации связи с сервисом Твиттер : {e}");
                 }
 
+                #endregion
 
-
+                #region Tweets
+                /* Блок твиттов пока не нужен
+                
                 // проверка на наличие 15 твиттов в ленте
                 int countTweets = tweets.Count <= 15 ? tweets.Count - 1 : 14;
 
@@ -118,18 +124,25 @@ namespace TwitterConsole
 
                     Console.WriteLine("----------------------------------------\n");
                 }
-
-                TwitterTrends trends;
-                // защищаем обращение к сервису твиттера
+                */
+                #endregion
+                // TwitterTrends trends;
+                // защищаем обращение к сервису твиттера и заполнении трендов
                 try
                 {
-                    trends = service.ListLocalTrendsFor(new ListLocalTrendsForOptions() {Id = 1}); // 1 - весь мир
+                    TwitterTrends trends = service.ListLocalTrendsFor(new ListLocalTrendsForOptions() {Id = 1}) 
+                                 ?? throw new ArgumentNullException("service.ListLocalTrendsFor(new ListLocalTrendsForOptions() {Id = 1})"); // 1 - весь мир
+                    foreach (var twitterTrend in trends) trendsList.Add($"{twitterTrend.Name}");
+                    trendsList.Sort();
                 }
                 catch (Exception e)
                 {
                     throw new TwitterException("Ошибка в запросе трендов Твиттера :" + e.Message);
                 }
 
+                #region oldTrensOut
+
+                /* предыдущая версия вывода
                 var builder = new StringBuilder();
                 foreach (var trend in trends)
                 {
@@ -143,9 +156,18 @@ namespace TwitterConsole
                     Console.WriteLine(trend.Name);
                     Console.WriteLine();
                 }
-
                 Console.WriteLine("Строка с трендами на #:");
                 Console.WriteLine(builder);
+                */
+
+                #endregion
+
+
+                Console.WriteLine($"--- {trendsList.Count} отсортированных трендов моего Твиттера:");
+                foreach (var trand in trendsList)
+                {
+                    Console.WriteLine(trand);
+                }
             }
             catch (Exception e)
             {
@@ -153,6 +175,8 @@ namespace TwitterConsole
             }
             finally
             {
+
+                Console.WriteLine("\nНажмите любую клавишу для выхода из приложения");
                 Console.ReadKey();
             }
             
