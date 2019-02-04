@@ -12,15 +12,15 @@ namespace VehiclesApp
     class Station<T>
     {
         public string Name { get; set; }
-        public int OnStation { get => _OnStationV.Count; }
-            
+        public int NumberOfV => _OnStationV.Count;
+
         private List<T> _OnStationV { get; }
 
-        void InStation(T v)
+        public void ArriveAtStation(T v)
         {
         }
 
-        T OutStation()
+        T LeaveStation()
         {
             return default(T);
         }
