@@ -49,6 +49,7 @@
     <Compile Include="BaseV.cs" />
     <Compile Include="BoatV.cs" />
     <Compile Include="CarV.cs" />
+    <Compile Include="Station.cs" />
     <Compile Include="GroundV.cs" />
     <Compile Include="ICarryCargo.cs" />
     <Compile Include="ITouristHelper.cs" />
