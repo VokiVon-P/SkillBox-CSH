@@ -1,33 +1,30 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace VehiclesApp
 {
     /*
-     * Параметризованный класс станции 
+     * Параметризованный класс станции
      */
-    class Station<T>
+    internal class Station<T>
     {
-        public string Name { get; set; }
-        public int NumberOfV => _OnStationV.Count;
-
         private List<T> _OnStationV { get; }
 
-        public void ArriveAtStation(T v)
-        {
-        }
 
-        T LeaveStation()
-        {
-            return default(T);
-        }
+        public string Name { get; set; }
 
-        public Station()
+        // кол-во транспорта на станции
+        public int NumberOfV => _OnStationV.Count;
+        
+
+        public void ArriveAtStation(T v) => _OnStationV.Add(v);
+        public bool LeaveStation(T v) => _OnStationV.Remove(v);
+        
+
+        public Station(string name)
         {
             _OnStationV = new List<T>();
+            Name = name;
         }
+        
     }
 }
