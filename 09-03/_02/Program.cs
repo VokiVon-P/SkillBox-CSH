@@ -1,4 +1,6 @@
 ﻿using System;
+using CHelpers;
+
 
 namespace VehiclesApp
 {
@@ -24,9 +26,8 @@ namespace VehiclesApp
 
         }
 
-        static void Main(string[] args)
+        static void TestInfo()
         {
-
             //GetInfo(new BaseV());
             GetInfo(new BoatV());
             GetInfo(new YachtV());
@@ -34,22 +35,24 @@ namespace VehiclesApp
             GetInfo(new SpaceV());
             GetInfo(new SpaceV
             {
+                Name = "Space Cowboy",
                 Fuel = FuelV.C2H5OH,
                 MaxSpeed = 300000,
                 Engine = "Душа",
                 Environment = "Космос"
-            } );
+            });
             GetInfo(new TrainV());
             GetInfo(new CarV());
             GetInfo(new AirCargoV());
             GetInfo(new BalloonV());
+        }
+        
+        static void Main(string[] args)
+        {
 
+            TestInfo();
 
-            /////////////////////////////////////////////
-            // Keep the console window open in debug mode.
-            Console.WriteLine("\n");
-            Console.WriteLine("Press any key to exit.");
-            Console.ReadKey();
+            ConsoleHelper.KeepConsole();
 
         }
     }

@@ -9,6 +9,7 @@ namespace VehiclesApp
 
     abstract public class BaseV
     {
+        public string Name { get; set; }
         public string Engine { get; set; }
         public int MaxSpeed { get; set; }
         public string Environment { get; set; }
@@ -21,7 +22,8 @@ namespace VehiclesApp
         {
             var txt = new StringBuilder();
             txt.Append("============\n");
-            txt.Append($"Тип: {base.ToString()}");
+            txt.Append($"Имя: {Name ?? default(string)}");
+            txt.Append($"\nТип: {base.ToString()}");
             txt.Append($"\nEnvironment = {Environment}");
             txt.Append($"\nEngine = {Engine}");
             txt.Append($"\nFUEL = {Fuel.ToString()}");
