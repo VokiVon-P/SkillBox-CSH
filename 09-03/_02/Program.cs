@@ -46,12 +46,74 @@ namespace VehiclesApp
             GetInfo(new AirCargoV());
             GetInfo(new BalloonV());
         }
+
+        static void TestBoatStation()
+        {
+            ConsoleColor oldColor = Console.ForegroundColor;
+            Console.WriteLine("===  Корабли  ===");
+            Console.WriteLine();
+
+            //////////////////////
+            // Тест для кораблей
+            Station<BoatV> macaoStation = new Station<BoatV>("Macao");
+            Station<BoatV> nyStation = new Station<BoatV>("New York");
+            Station<BoatV> hkStation = new Station<BoatV>("Hong Kong");
+
+            BoatV boat01 = new BoatV { Name = "Михаил Светлов" };
+            YachtV yacht01 = new YachtV { Name = "White Hawk"};
+
+            Console.ForegroundColor = ConsoleColor.Blue;
+
+            // корабль в Нью-Йорк
+            Console.WriteLine($"{boat01.Name} => {boat01.Move()} в {nyStation.Name}");
+            nyStation.ArriveAtStation(boat01);
+            Console.WriteLine($"В порт {nyStation.Name} прибыл корабль {boat01.Name}");
+            Console.WriteLine($"В порту {nyStation.Name} находиться {nyStation.NumberOfV} кораблей");
+            Console.WriteLine();
+
+            // яхта в Гон-Конг
+            Console.WriteLine($"{yacht01.Name} => {yacht01.Move()} в {hkStation.Name}");
+            hkStation.ArriveAtStation(yacht01);
+            Console.WriteLine($"В порт {hkStation.Name} прибыл корабль {yacht01.Name}");
+            Console.WriteLine($"В порту {hkStation.Name} находиться {hkStation.NumberOfV} кораблей");
+            Console.WriteLine();
+
+            // корабль из Нью-Йорка в Макао
+            Console.WriteLine($"{boat01.Name} => {boat01.Move()} в {macaoStation.Name}");
+            nyStation.LeaveStation(boat01);
+            Console.WriteLine($"В порту {nyStation.Name} находиться {nyStation.NumberOfV} кораблей");
+            Console.WriteLine();
+
+            // яхта из Гон-Конга в Макао
+            Console.WriteLine($"{yacht01.Name} => {yacht01.Move()} в {macaoStation.Name}");
+            hkStation.LeaveStation(yacht01);
+            Console.WriteLine($"В порту {hkStation.Name} находиться {hkStation.NumberOfV} кораблей");
+            Console.WriteLine();
+
+            // яхта и корабль в Макао
+            Console.WriteLine($"В порт {macaoStation.Name} прибыл корабль {boat01.Name}");
+            macaoStation.ArriveAtStation(boat01);
+            //Console.WriteLine($"В порт {macaoStation.Name} прибыл корабль {yacht01.Name}");
+            macaoStation.ArriveAtStation(yacht01);
+            for (int i = 0; i < 7; i++)
+            {
+                macaoStation.ArriveAtStation(new BoatV{Name = $"boat_{i}"});
+            }
+            Console.WriteLine($"В порту {macaoStation.Name} находиться {macaoStation.NumberOfV} кораблей");
+            Console.WriteLine($"Пришла ли в порт {macaoStation.Name} яхта {yacht01.Name} ?");
+            
+            string ans = macaoStation.IsOnStation(yacht01) ? $"Да! Яхта {yacht01.Name} в порту {macaoStation.Name}" : $"Нет! Яхты {yacht01.Name} нет в порту {macaoStation.Name}";
+            Console.WriteLine(ans);
+            Console.WriteLine();
+            
+            Console.ForegroundColor = oldColor;
+        }
         
         static void Main(string[] args)
         {
 
-            TestInfo();
-
+            //TestInfo();
+            TestBoatStation();
             ConsoleHelper.KeepConsole();
 
         }

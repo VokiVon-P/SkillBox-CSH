@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Text;
 
 namespace VehiclesApp
 {
@@ -19,7 +20,7 @@ namespace VehiclesApp
         public void ArriveAtStation(T v) => _OnStationV.Add(v);
         public bool LeaveStation(T v) => _OnStationV.Remove(v);
         public bool IsOnStation(T v) => _OnStationV.Contains(v);
-        
+
         public Station(string name)
         {
             _OnStationV = new List<T>();
