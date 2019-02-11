@@ -18,7 +18,7 @@
   <Class Name="VehiclesApp.BaseV">
     <Position X="7.5" Y="1" Width="1.75" />
     <TypeIdentifier>
-      <HashCode>AAAAAAACAIAAAAAEAAAEAAAAAAAAAAAABgAAAAAAAAA=</HashCode>
+      <HashCode>AAAAAAACAIAAAAAEAAAEAAQAAAAAAAAABgAAAAAAAAA=</HashCode>
       <FileName>BaseV.cs</FileName>
       <NewMemberFileName>BoatV.cs</NewMemberFileName>
     </TypeIdentifier>
@@ -87,6 +87,13 @@
       <FileName>BalloonV.cs</FileName>
     </TypeIdentifier>
     <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="VehiclesApp.Station&lt;T&gt;">
+    <Position X="18.5" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>gAAAAAAAAAAAAAABAAAAAAQAAAIAAAAAAAEACAAAAAA=</HashCode>
+      <FileName>Station.cs</FileName>
+    </TypeIdentifier>
   </Class>
   <Interface Name="VehiclesApp.ICarryCargo">
     <Position X="16.75" Y="1" Width="1.5" />
