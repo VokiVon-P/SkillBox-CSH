@@ -2,6 +2,7 @@
 using CHelpers;
 
 
+
 namespace VehiclesApp
 {
     class Program
@@ -62,7 +63,7 @@ namespace VehiclesApp
             BoatV boat01 = new BoatV { Name = "Михаил Светлов" };
             YachtV yacht01 = new YachtV { Name = "White Hawk"};
 
-            Console.ForegroundColor = ConsoleColor.Blue;
+            Console.ForegroundColor = ConsoleColor.Cyan;
 
             // корабль в Нью-Йорк
             Console.WriteLine($"{boat01.Name} => {boat01.Move()} в {nyStation.Name}");
@@ -108,12 +109,54 @@ namespace VehiclesApp
             
             Console.ForegroundColor = oldColor;
         }
-        
+
+        static void TestTrainStation()
+        {
+            ConsoleColor oldColor = Console.ForegroundColor;
+            Console.WriteLine("===  Поезда  ===");
+            Console.WriteLine();
+
+            //////////////////////
+            // Тест для поездов
+            Station<TrainV> train_st_London = new Station<TrainV>("Ватерлоо \t: Лондон");
+            Station<TrainV> train_st_Paris  = new Station<TrainV>("Аустерлиц \t: Париж");
+
+
+            Console.ForegroundColor = ConsoleColor.Green;
+
+            Console.WriteLine($"На вокзале {train_st_London.Name} \t находиться {train_st_London.NumberOfV} поездов");
+            Console.WriteLine($"На вокзале {train_st_Paris.Name} \t находиться {train_st_Paris.NumberOfV} поездов");
+            Console.WriteLine();
+            Console.WriteLine("================================================");
+            Random rnd = new Random();
+
+            int max = rnd.Next(25, 50);
+            for (int i = 0; i < max; i++)
+            {
+                TrainV tr_ = new TrainV { Name = $" Поезд_{i}" };
+                Station<TrainV> st_ = (i % 2 == 0 ? train_st_London : train_st_Paris);
+                st_.ArriveAtStation(tr_);
+                Console.WriteLine($"Вокзал \t{st_.Name} \t - прибывает\t{tr_.Name}");
+                // отправление поездов
+                if (rnd.Next(100) % 2 == 0) Console.WriteLine($"Вокзал\t{st_.Name} \t - отправляется\t{st_.LeaveStationFirst().Name}");
+                    
+            }
+            Console.WriteLine("================================================");
+            Console.WriteLine();
+            Console.WriteLine($"На вокзале {train_st_London.Name} \t находиться {train_st_London.NumberOfV} поездов");
+            Console.WriteLine($"На вокзале {train_st_Paris.Name} \t находиться {train_st_Paris.NumberOfV} поездов");
+
+            Console.WriteLine();
+
+            Console.ForegroundColor = oldColor;
+        }
+
         static void Main(string[] args)
         {
 
             //TestInfo();
             TestBoatStation();
+            TestTrainStation();
             ConsoleHelper.KeepConsole();
 
         }

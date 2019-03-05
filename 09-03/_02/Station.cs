@@ -21,6 +21,13 @@ namespace VehiclesApp
         public bool LeaveStation(T v) => _OnStationV.Remove(v);
         public bool IsOnStation(T v) => _OnStationV.Contains(v);
 
+        public T LeaveStationFirst()
+        {
+            T item = _OnStationV[0];
+            _OnStationV.Remove(item);
+            return item;
+
+        }
         public Station(string name)
         {
             _OnStationV = new List<T>();
