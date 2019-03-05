@@ -11,7 +11,6 @@ namespace VehiclesApp
     {
         private List<T> _OnStationV { get; }
 
-
         public string Name { get; set; }
 
         // кол-во транспорта на станции
@@ -26,13 +25,12 @@ namespace VehiclesApp
             T item = _OnStationV[0];
             _OnStationV.Remove(item);
             return item;
-
         }
+
         public Station(string name)
         {
             _OnStationV = new List<T>();
             Name = name;
         }
-        
     }
 }
