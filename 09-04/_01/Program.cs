@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using CHelpers;
 
 /* ===========================================================================================
  * В ДЗ про заказы интернет-магазина заменить массив на очередь.
@@ -12,12 +13,12 @@ using System.Threading.Tasks;
  * ===========================================================================================
 */
 
-namespace ConsoleApp1
+namespace QueueApp
 {
     class Program
     {
         // определяем перечисление статусов
-        enum OrderStatus {Новый, Подтвержден, Обрабатывается, Отгружен, Доставлен};
+        enum OrderStatus { Новый, Подтвержден, Обрабатывается, Отгружен, Доставлен };
 
         static void Main(string[] args)
         {
@@ -32,7 +33,7 @@ namespace ConsoleApp1
             int lengthEnum = Enum.GetValues(typeof(OrderStatus)).Length;
             while (orders.Count < 10)
             {
-                OrderStatus item = (OrderStatus) rnd.Next(lengthEnum);
+                OrderStatus item = (OrderStatus)rnd.Next(lengthEnum);
                 orders.Enqueue(item);
                 Console.WriteLine($"{item}");
             }
@@ -40,7 +41,7 @@ namespace ConsoleApp1
             //{
             //    orders[i] = (OrderStatus)rnd.Next(lengthEnum);
             //    //проверка содержимого массива - индекс увеличиваем для человеческого восприятия
-                
+
 
             //}
             Console.WriteLine();
@@ -61,10 +62,7 @@ namespace ConsoleApp1
             //    Console.WriteLine("Вы ввели не правильный номер заказа!");
 
 
-            // Keep the console window open in debug mode.
-            System.Console.WriteLine("\n");
-            System.Console.WriteLine("Press any key to exit.");
-            System.Console.ReadKey();
+            ConsoleHelper.KeepConsole();
         }
     }
 }
