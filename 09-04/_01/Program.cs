@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using CHelpers;
 
 /* ===========================================================================================
@@ -28,8 +25,19 @@ namespace QueueApp
             // наша очередь заказов
             Queue<int> orders = new Queue<int>();
 
-            bool flag_exit = false;
-            while (!flag_exit)
+            // напишем инструкцию по командам!
+            Console.WriteLine("============================================");
+            Console.WriteLine("       Добро пожаловать в магазин!");
+            Console.WriteLine(" Вы можете использовать следующие команды: ");
+            Console.WriteLine($" {IN_CMD} \t- команда размещения заказа ");
+            Console.WriteLine($" {OUT_CMD} \t- команда выполнения следующего заказа ");
+            Console.WriteLine($" {EXIT_CMD} \t\t\t- команда завершения работы ");
+            Console.WriteLine("============================================");
+            Console.WriteLine("");
+
+
+            bool flagExit = false;
+            while (!flagExit)
             {
                 Console.Write("Введите команду: ");
                 string ans = Console.ReadLine();
@@ -65,8 +73,8 @@ namespace QueueApp
                         }
                     case EXIT_CMD:
                         {
-                            Console.WriteLine("Вывод из программы");
-                            flag_exit = true;
+                            Console.WriteLine("Выход из программы");
+                            flagExit = true;
                             break;
                         }
                     default:
