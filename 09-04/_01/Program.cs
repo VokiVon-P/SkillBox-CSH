@@ -17,50 +17,68 @@ namespace QueueApp
 {
     class Program
     {
-        // определяем перечисление статусов
-        enum OrderStatus { Новый, Подтвержден, Обрабатывается, Отгружен, Доставлен };
-
+        
         static void Main(string[] args)
         {
+            const string IN_CMD = "разместить заказ";
+            const string OUT_CMD = "выполнить заказ";
+            const string EXIT_CMD = "exit";
+            const int MAX_COUNT = 10;
+
             // наша очередь заказов
-            Queue<OrderStatus> orders = new Queue<OrderStatus>();
+            Queue<int> orders = new Queue<int>();
 
-            Console.WriteLine($"В нашем магазине сейчас {orders.Count} заказов");
-
-            // заполняем массив случайными значениями из нашего перечисления1
-            Random rnd = new Random();
-            // запоминаем кол-во элементов в enum
-            int lengthEnum = Enum.GetValues(typeof(OrderStatus)).Length;
-            while (orders.Count < 10)
+            bool flag_exit = false;
+            while (!flag_exit)
             {
-                OrderStatus item = (OrderStatus)rnd.Next(lengthEnum);
-                orders.Enqueue(item);
-                Console.WriteLine($"{item}");
+                Console.Write("Введите команду: ");
+                string ans = Console.ReadLine();
+                switch (ans)
+                {
+                    case OUT_CMD:
+                        {
+                            if(orders.Count > 0)
+                                Console.WriteLine($"Заказ №{orders.Dequeue()} выполнен!");
+                            else
+                                Console.WriteLine($"Очередь заказов пуста!");
+                            break;
+                        }
+                    case IN_CMD:
+                        {
+                            if(orders.Count >= MAX_COUNT)
+                            {
+                                Console.WriteLine($"В обработке {orders.Count} заказов. Очередь перегружена!");
+                                break;
+                            }
+
+                            Console.Write("Введите номер заказа: ");
+                            // разбор ввода и проверка на корректность
+                            if (int.TryParse(Console.ReadLine(), out int order_num))
+                            {
+                                orders.Enqueue(order_num);
+                                Console.WriteLine($"Заказ {order_num} добавлен!");
+                            }
+                            else
+                                Console.WriteLine("Вы ввели неправильный номер заказа!");
+
+                            break;
+                        }
+                    case EXIT_CMD:
+                        {
+                            Console.WriteLine("Вывод из программы");
+                            flag_exit = true;
+                            break;
+                        }
+                    default:
+                        {
+                            Console.WriteLine("Введена неверная команда!");
+                            break;
+                        }
+                }
             }
-            //for(int i =0; i< orders.Length; i++)
-            //{
-            //    orders[i] = (OrderStatus)rnd.Next(lengthEnum);
-            //    //проверка содержимого массива - индекс увеличиваем для человеческого восприятия
 
-
-            //}
             Console.WriteLine();
             Console.WriteLine($"В нашем магазине сейчас {orders.Count} заказов");
-            Console.WriteLine("Введите номер заказа чтобы узнать его статус:");
-
-            // разбор ввода и проверка на корректность
-            //string  inputString = Console.ReadLine();
-            //var success = int.TryParse(inputString, out int idx);
-            //bool result = success && idx > 0 && idx <= orders.Length;
-
-            //if (result)
-            //{
-            //    // вывод значения с поправкой на подсчет заказов с 1
-            //    Console.WriteLine("Статус вашего заказа - {0}", orders[idx-1]);
-            //}
-            //else
-            //    Console.WriteLine("Вы ввели не правильный номер заказа!");
-
 
             ConsoleHelper.KeepConsole();
         }
