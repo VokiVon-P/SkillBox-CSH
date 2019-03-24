@@ -59,10 +59,10 @@ namespace StackApp
 
                             Console.Write("Введите номер борта: ");
                             // разбор ввода и проверка на корректность
-                            if (int.TryParse(Console.ReadLine(), out int order_num))
+                            if (int.TryParse(Console.ReadLine(), out int orderNum))
                             {
-                                parking.Push(order_num);
-                                Console.WriteLine($"Борт {order_num} припаркован на стоянку!");
+                                parking.Push(orderNum);
+                                Console.WriteLine($"Борт {orderNum} припаркован на стоянку!");
                             }
                             else
                                 Console.WriteLine("Вы ввели неправильный номер бота!");
