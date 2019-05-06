@@ -5,24 +5,208 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:InterfaceApp"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800" Background="#FF10065C">
-    <Border CornerRadius="20" BorderBrush="Black" Background="LightBlue" BorderThickness="1">
-        <Grid >
-            <Grid.RowDefinitions>
-                <RowDefinition/>
-                <RowDefinition/>
-            </Grid.RowDefinitions>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="3*"/>
-                <ColumnDefinition Width="6*"/>
-            </Grid.ColumnDefinitions>
-            <TextBox Grid.ColumnSpan="2" HorizontalAlignment="Center" Height="23" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="296" />
-            <Button Content="Button" HorizontalAlignment="Center" Grid.Row="1" VerticalAlignment="Top" Width="75"/>
-            <Button Content="Button" HorizontalAlignment="Center" Grid.Row="1" VerticalAlignment="Top" Width="75" Grid.Column="1"/>
-            <TextBlock  FontSize="16" TextWrapping="Wrap" Text="Тестовый текст!">
+        Title="Макет интерфейса приложения - без функционала!" Height="800" Background="{x:Null}" ShowActivated="True" Width="953" Style="{DynamicResource BaseText}">
+    <Window.Resources>
 
-            </TextBlock> 
-            
+        <!--Control colors.-->
+        <Color x:Key="WindowColor">#FFE8EDF9</Color>
+        <Color x:Key="ContentAreaColorLight">#FFC5CBF9</Color>
+        <Color x:Key="ContentAreaColorDark">#FF7381F9</Color>
+
+        <!--Text colors.-->
+        <Color x:Key="HeaderColor">#4E5F6F</Color>
+        <Color x:Key="RefColor">#0083FE</Color>
+        
+        
+
+        <!--Border colors #FF888888 #8998A5  -->
+        <Color x:Key="BorderColor">#A2AEBA</Color>
+        <Color x:Key="BorderBtnColor">#0083FE</Color>
+
+        <SolidColorBrush x:Key="BorderBrush" Color="{StaticResource BorderColor}"/>
+        <SolidColorBrush x:Key="RefBrush" Color="{StaticResource RefColor}"/>
+
+        <BitmapImage x:Key="ImageFind" CreateOptions="IgnoreImageCache" CacheOption="OnLoad" UriSource="img/search_icon.png" />
+        <BitmapImage x:Key="ImageHome" CreateOptions="IgnoreImageCache" CacheOption="OnLoad" UriSource="img/home icon.png" />
+        <BitmapImage x:Key="ImageFace" CreateOptions="IgnoreImageCache" CacheOption="OnLoad" UriSource="img/Nmd_140x140.jpg" />
+
+        <ControlTemplate x:Key="FindTemplate">
+            <Border x:Name="FindBorder" BorderBrush="{StaticResource BorderBrush}" BorderThickness="1" CornerRadius="3" Background="{TemplateBinding Control.Background}">
+                <ScrollViewer Margin="5.0" x:Name="PART_ContentHost"/>
+            </Border>
+        </ControlTemplate>
+
+        <ControlTemplate x:Key="ButtonTemplate" TargetType="{x:Type Button}">
+            <Border x:Name="Border" CornerRadius="4" Background="{TemplateBinding Control.Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}">
+                <ContentPresenter VerticalAlignment="Center" HorizontalAlignment="Center" />
+            </Border>
+            <ControlTemplate.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter TargetName="Border" Property="Background" Value="Gold" />
+                </Trigger>
+                <Trigger Property="IsPressed" Value="True">
+                    <Setter TargetName="Border" Property="Background" Value="Orange" />
+                </Trigger>
+            </ControlTemplate.Triggers>
+        </ControlTemplate>
+
+        <Style TargetType="{x:Type Button}">
+            <Setter Property="Template" Value="{StaticResource ButtonTemplate}"/>
+            <Setter Property="BorderBrush" Value="{StaticResource RefBrush}"/>
+        </Style>
+
+        <Style x:Key="BlueBtn" BasedOn="{StaticResource {x:Type Button}}" TargetType="{x:Type Button}">
+            <Setter Property="Background" Value="{StaticResource RefBrush}"/>
+            <Setter Property="BorderThickness" Value="0"/>
+        </Style>
+
+        <Style  TargetType="{x:Type ListBox}">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type ListBox}">
+                        <Border CornerRadius="5" Background="{TemplateBinding ListBox.Background}" BorderBrush="Red" BorderThickness="2">
+                            <!--
+                            <ScrollViewer HorizontalScrollBarVisibility="Auto">
+                                <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center" IsItemsHost="True"/>
+                            </ScrollViewer>
+                            -->
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!--
+        <Style BasedOn="{StaticResource MainBtn}" TargetType="{x:Type Button}"/>
+        
+        <Style TargetType="{x:Type TextBox}">
+            <Setter Property="Template" Value="{StaticResource FindTemplate}"/>
+        </Style>
+    -->
+
+        <Style x:Key="temp" TargetType="{x:Type TextBox}">
+            <Setter Property="SnapsToDevicePixels" 
+          Value="True" />
+            <Setter Property="OverridesDefaultStyle"
+          Value="True" />
+            <Setter Property="KeyboardNavigation.TabNavigation"
+          Value="None" />
+            <Setter Property="FocusVisualStyle"
+          Value="{x:Null}" />
+            <Setter Property="MinWidth"
+          Value="120" />
+            <Setter Property="MinHeight"
+          Value="40" />
+            <Setter Property="AllowDrop"
+          Value="true" />
+            <Setter Property="Template" Value="{StaticResource FindTemplate}"/>
+
+        </Style>
+
+
+        <Style x:Key="MainBorder" TargetType="{x:Type Border}">
+            <Setter Property="Background" Value="White"/>
+            <Setter Property="CornerRadius" Value="14" />
+            <Setter Property="BorderBrush" Value="Gray" />
+            <Setter Property="BorderThickness" Value="1" />
+        </Style>
+
+     
+        <Style TargetType="{x:Type Border}" BasedOn="{StaticResource MainBorder}"/>
+
+
+
+
+
+        <Style TargetType="{x:Type Grid}">
+            <Setter Property="ShowGridLines" Value="True"/>
+            <Setter Property="Background" Value="White"/>
+        </Style>
+
+        <Style x:Key="BaseText" TargetType="{x:Type Control}">
+            <Setter Property="FontFamily" Value="Roboto"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="FontWeight" Value="Normal"/>
+            <Setter Property="FontStyle" Value="Normal"/>
+        </Style>
+
+        <Style x:Key="HeaderText" BasedOn="{StaticResource BaseText}" TargetType="{x:Type Label}">
+            <Setter Property="FontFamily" Value="Roboto"/>
+            <Setter Property="FontSize" Value="16"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="FontStyle" Value="Normal"/>
+        </Style>
+
+
+    </Window.Resources>
+
+    <Grid>
+        <!---->
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="370*" MinWidth="300"/>
+            <ColumnDefinition Width="583*" MinWidth="500"/>
+        </Grid.ColumnDefinitions>
+
+        <Grid x:Name="LeftGrid" >
+            <Border Grid.RowSpan="3" >
+                
+            </Border>
+            <Image Source="{DynamicResource ImageFace}" HorizontalAlignment="Center" VerticalAlignment="Center" Width="120" Height="120" Stretch="Fill" >
+                <Image.Clip>
+                    <EllipseGeometry Center="60, 60" RadiusX="60" RadiusY="60" />
+                </Image.Clip>
+            </Image>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="1*" MinHeight="150"/>
+                <RowDefinition Height="1*" MinHeight="150"/>
+                <RowDefinition Height="200"/>
+            </Grid.RowDefinitions>
         </Grid>
-    </Border>
+
+        <Grid x:Name="RightGrid" Grid.Column="1" Margin="10,0,0,0">
+            <Border Grid.Row="0">
+                <StackPanel VerticalAlignment="Center" Margin="20,0">
+                    <Label Content="Поиск" Style="{DynamicResource HeaderText}"/>
+                    <DockPanel Height="44" >
+                        
+                        <Button Height="44" Width="105" Margin="5,0,0,0" Background="White" Padding="1" DockPanel.Dock="Right">
+                            <StackPanel MinHeight="44" Orientation="Horizontal" Margin="3,0,0,0">
+                                <Image Source="{DynamicResource ImageHome}" Stretch="None" SnapsToDevicePixels="True" ClipToBounds="True" />    
+                                <Label Content="Домой" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="7,0,0,0" Foreground="{DynamicResource RefBrush}"/>
+                            </StackPanel>
+                        </Button>
+                        
+                        <Button Height="44" Width="55" HorizontalAlignment="Center" VerticalAlignment="Center" Style="{StaticResource BlueBtn}" Margin="0,0,1,0"  DockPanel.Dock="Right">
+                            <Image Source="{DynamicResource ImageFind}" Stretch="None" />
+                        </Button>
+                        
+                        <TextBox Height="44" Text="Введите #хештег или @имя" VerticalContentAlignment="Center" ClipToBounds="True" FlowDirection="LeftToRight" Template="{StaticResource FindTemplate}"  DockPanel.Dock="Left">
+                            
+                        </TextBox>
+                        
+                    </DockPanel>
+                </StackPanel>
+            </Border>
+
+            <Border Grid.Row="1" Margin="0,10,0,-2" >
+                <DockPanel  ClipToBounds="True">
+                    <Button Content="Button" Height="40" DockPanel.Dock="Bottom" VerticalAlignment="Bottom"  ClipToBounds="True"/>
+                    <ListBox MinHeight="100" Margin="10,0" MinWidth="100" DockPanel.Dock="Top">
+                        <ListBoxItem Content="123"/>
+                        <ListBoxItem Content="234"/>
+                        <ListBoxItem Content="345"/>
+                        <ListBoxItem Content="456"/>
+                        <ListBoxItem Content="567"/>
+                        <ListBoxItem Content="678"/>
+                    </ListBox>
+                    
+                </DockPanel>
+            </Border>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="113" />
+            <RowDefinition Height="1*" MinHeight="150"/>
+        </Grid.RowDefinitions>
+        </Grid>
+    </Grid>
 </Window>
