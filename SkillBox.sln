@@ -7,7 +7,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SaveIconsTwApp", "TwitterAp
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SerializeCon", "SerializeCon\SerializeCon.csproj", "{F0DE6E08-F85F-47BF-BD8A-2895118B573D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FileVViewer", "FileVViewer\FileVViewer.csproj", "{C7D1BC92-C67E-429F-8A2E-40FE89CE0A14}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FileViewer", "FileVViewer\FileViewer.csproj", "{C7D1BC92-C67E-429F-8A2E-40FE89CE0A14}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -5,22 +5,23 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:FileVViewer"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="MainWindow" Height="450" Width="800" Loaded="Window_Loaded">
     <Grid  x:Name="MGrid">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
         
-        <TextBlock Grid.Column="1" TextWrapping="Wrap" Text="TextBlock"/>
-        <ListView>
+        <ListView x:Name="DirFileList" SelectionChanged="DirFileList_SelectionChanged">
             <ListView.View>
                 <GridView>
                     <GridViewColumn/>
                 </GridView>
             </ListView.View>
         </ListView>
-        <GridSplitter Grid.Column ="0" Background="Blue" Width="5"
+        <GridSplitter Grid.Column ="0" Background="LightSlateGray" Width="3"
                 HorizontalAlignment="Right" VerticalAlignment="Stretch"/>
+        
+        <TextBlock x:Name="RightTextViewer" Grid.Column="1" TextWrapping="Wrap" Text="TextBlock"/>
     </Grid>
 </Window>

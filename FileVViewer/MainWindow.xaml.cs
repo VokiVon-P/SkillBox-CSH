@@ -11,7 +11,8 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
-using System.Windows.Shapes;
+using System.IO;
+using System.Collections.ObjectModel;
 
 namespace FileVViewer
 {
@@ -23,6 +24,38 @@ namespace FileVViewer
         public MainWindow()
         {
             InitializeComponent();
+        }
+
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+            GetDir();
+        }
+
+        private void GetDir(string dir = null)
+        {
+            // string temp = System.IO.Path.GetFullPath(".");
+            if(dir == null)
+                dir = Directory.GetCurrentDirectory();
+            RightTextViewer.Text = dir;
+            var listfile = new ObservableCollection<string>();
+            foreach(var textDir in Directory.GetDirectories(dir))
+            {
+                listfile.Add(Path.GetFileName(textDir));
+            }
+            foreach (var textFile in Directory.GetFiles(dir))
+            {
+                listfile.Add(Path.GetFileName(textFile));
+            }
+
+            DirFileList.ItemsSource = listfile;
+
+        }
+
+        private void DirFileList_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            StringBuilder fileInfo = new StringBuilder();
+            
+            RightTextViewer.Text = DirFileList.SelectedItem.ToString();
         }
     }
 }
