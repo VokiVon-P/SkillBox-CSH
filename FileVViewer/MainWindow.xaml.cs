@@ -53,9 +53,8 @@ namespace FileVViewer
         private void DirFileList_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             // StringBuilder fileInfo = new StringBuilder();
-
-            // 
-            RightTextViewer.Text = DirFileList.SelectedItem?.ToString();
+            
+            RightTextViewer.Text = HelperDir.GetFileInfo(DirFileList.SelectedItem?.ToString());
         }
 
         private void DirFileList_MouseDoubleClick(object sender, MouseButtonEventArgs e)
@@ -64,9 +63,16 @@ namespace FileVViewer
             string selectedItem = DirFileList.SelectedItem?.ToString();
             if (HelperDir.IsFile(selectedItem))
                 GetFileInfo(selectedItem);
-
             else
                 GetDir(selectedItem);
-        }   
+        }
+
+        private void DirFileList_KeyUp(object sender, KeyEventArgs e)
+        {
+            var txt = e.ToString();
+            if (e.Key == System.Windows.Input.Key.Enter)
+
+
+        }
     }
 }

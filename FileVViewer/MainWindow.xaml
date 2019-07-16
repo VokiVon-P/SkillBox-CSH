@@ -12,7 +12,7 @@
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
         
-        <ListView x:Name="DirFileList" SelectionChanged="DirFileList_SelectionChanged" MouseDoubleClick="DirFileList_MouseDoubleClick">
+        <ListView x:Name="DirFileList" SelectionChanged="DirFileList_SelectionChanged" MouseDoubleClick="DirFileList_MouseDoubleClick" KeyUp="DirFileList_KeyUp">
             <ListView.View>
                 <GridView>
                     <GridViewColumn/>

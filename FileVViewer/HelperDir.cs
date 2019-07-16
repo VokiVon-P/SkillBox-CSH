@@ -10,11 +10,45 @@ namespace FileVViewer
 {
     public static class HelperDir
     {
-
-        private const string UP_DIR = "[ .. ]";
-
-        static private bool IsRoot(string dir) => Directory.GetCurrentDirectory() == Directory.GetDirectoryRoot(dir);
         static public bool IsFile(string dir) => File.Exists(dir);
+
+        private const string UP_DIR = "[ ... ]";
+        static private bool IsRoot(string dir) => Directory.GetCurrentDirectory() == Directory.GetDirectoryRoot(dir);
+
+
+        static private string GetSmallFileInfo(string fileName)
+        {
+            StringBuilder fileInfo = new StringBuilder();
+
+            var vs = new FileInfo(fileName);
+            fileInfo.AppendLine();
+            fileInfo.AppendLine($" Имя файла: {vs.Name}");
+            fileInfo.AppendLine();
+            fileInfo.AppendLine($" Время создания: {vs.CreationTime}");
+            fileInfo.AppendLine();
+            fileInfo.AppendLine($" Размер: {vs.Length}");
+
+            return fileInfo.ToString();
+        }
+
+        static private string GetSmallDirInfo(string dirName)
+        {
+            StringBuilder infoText = new StringBuilder();
+
+            DirectoryInfo dirInfo = new DirectoryInfo(dirName);
+            infoText.AppendLine();
+            infoText.AppendLine($"Название каталога: {dirInfo.Name}");
+            infoText.AppendLine();
+            infoText.AppendLine($"Полное название каталога: {dirInfo.FullName}");
+            infoText.AppendLine();
+            infoText.AppendLine($"Время создания каталога: {dirInfo.CreationTime}");
+            infoText.AppendLine();
+            infoText.AppendLine($"Корневой каталог: {dirInfo.Root}");
+
+            return infoText.ToString();
+        }
+
+
 
         static private string SetCurrentDir(string dir)
         {
@@ -66,7 +100,12 @@ namespace FileVViewer
 
         static public string GetFileInfo(string fileName)
         {
-            return "OK";
+            if(IsFile(fileName))
+            {
+                return GetSmallFileInfo(fileName);
+            }
+            else 
+              return GetSmallDirInfo(fileName);
         }
 
     }
