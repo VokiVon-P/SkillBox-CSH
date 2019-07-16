@@ -21,6 +21,8 @@ namespace FileVViewer
     /// </summary>
     public partial class MainWindow : Window
     {
+
+        
         public MainWindow()
         {
             InitializeComponent();
@@ -31,31 +33,40 @@ namespace FileVViewer
             GetDir();
         }
 
+        /// <summary>
+        /// Заполняет левый лист бокс файлами и директориями
+        /// </summary>
+        /// <param name="dir"> директория для заполнения, если null - берем текущую </param>
         private void GetDir(string dir = null)
         {
-            // string temp = System.IO.Path.GetFullPath(".");
-            if(dir == null)
-                dir = Directory.GetCurrentDirectory();
-            RightTextViewer.Text = dir;
-            var listfile = new ObservableCollection<string>();
-            foreach(var textDir in Directory.GetDirectories(dir))
-            {
-                listfile.Add(Path.GetFileName(textDir));
-            }
-            foreach (var textFile in Directory.GetFiles(dir))
-            {
-                listfile.Add(Path.GetFileName(textFile));
-            }
-
-            DirFileList.ItemsSource = listfile;
-
+            DirFileList.ItemsSource = HelperDir.GetFileDirList(dir);
         }
+
+        private void GetFileInfo(string fileName)
+        {
+            RightTextViewer.Text = HelperDir.GetFileInfo(fileName);
+        }
+
+
+
 
         private void DirFileList_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            StringBuilder fileInfo = new StringBuilder();
-            
-            RightTextViewer.Text = DirFileList.SelectedItem.ToString();
+            // StringBuilder fileInfo = new StringBuilder();
+
+            // 
+            RightTextViewer.Text = DirFileList.SelectedItem?.ToString();
         }
+
+        private void DirFileList_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            
+            string selectedItem = DirFileList.SelectedItem?.ToString();
+            if (HelperDir.IsFile(selectedItem))
+                GetFileInfo(selectedItem);
+
+            else
+                GetDir(selectedItem);
+        }   
     }
 }
