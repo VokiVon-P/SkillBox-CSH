@@ -21,7 +21,9 @@
         </ListView>
         <GridSplitter Grid.Column ="0" Background="LightSlateGray" Width="3"
                 HorizontalAlignment="Right" VerticalAlignment="Stretch"/>
-        
-        <TextBlock x:Name="RightTextViewer" Grid.Column="1" TextWrapping="Wrap" Text="TextBlock"/>
+
+        <ScrollViewer Grid.Column="1">
+            <TextBlock x:Name="RightTextViewer"  TextWrapping="Wrap"/>
+        </ScrollViewer>
     </Grid>
 </Window>

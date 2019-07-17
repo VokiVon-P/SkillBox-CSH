@@ -13,8 +13,22 @@ namespace FileVViewer
         static public bool IsFile(string dir) => File.Exists(dir);
 
         private const string UP_DIR = "[ ... ]";
+
+        private static readonly string[] extTxt = new string[] { ".txt", ".ini", ".cmd", ".cfg", ".config", ".cs" };
+        
         static private bool IsRoot(string dir) => Directory.GetCurrentDirectory() == Directory.GetDirectoryRoot(dir);
 
+        static public bool IsTxtFile(string pathFile)
+        {
+            if (!IsFile(pathFile))
+                return false;
+
+            var info = new FileInfo(pathFile);
+            var extFile = info.Extension;
+
+            return Array.Exists(extTxt, element => element == extFile);
+        }
+        
 
         static private string GetSmallFileInfo(string fileName)
         {
@@ -27,12 +41,19 @@ namespace FileVViewer
             fileInfo.AppendLine($" Время создания: {vs.CreationTime}");
             fileInfo.AppendLine();
             fileInfo.AppendLine($" Размер: {vs.Length}");
+            fileInfo.AppendLine();
 
             return fileInfo.ToString();
         }
-
+        
         static private string GetSmallDirInfo(string dirName)
         {
+            if (dirName == UP_DIR)
+                return "Родительская директория";
+
+            if (string.IsNullOrEmpty(dirName))
+                return "";
+
             StringBuilder infoText = new StringBuilder();
 
             DirectoryInfo dirInfo = new DirectoryInfo(dirName);
@@ -47,16 +68,13 @@ namespace FileVViewer
 
             return infoText.ToString();
         }
-
-
-
+        
         static private string SetCurrentDir(string dir)
         {
             if (dir == null)
                 dir = Directory.GetCurrentDirectory();
 
             if (dir == UP_DIR && !IsRoot(dir))
-                //dir = Directory.GetParent(dir).FullName;
                 dir = Directory.GetParent(Directory.GetCurrentDirectory())?.FullName;
 
             if (IsFile(dir))
@@ -67,7 +85,7 @@ namespace FileVViewer
             Directory.SetCurrentDirectory(dir);
             return dir;
         }
-
+        
         /// <summary>
         /// Заполняет список Директориями и файлами и возвращает его
         /// </summary>
@@ -97,15 +115,25 @@ namespace FileVViewer
             return listfile;
 
         }
-
+        
         static public string GetFileInfo(string fileName)
         {
             if(IsFile(fileName))
             {
-                return GetSmallFileInfo(fileName);
+                string text = GetSmallFileInfo(fileName);
+                if (IsTxtFile(fileName))
+                    text += ReadTxtFile(fileName);
+
+                return text;
             }
             else 
               return GetSmallDirInfo(fileName);
+        }
+
+        static public string ReadTxtFile(string fileName)
+        {
+            string fullPathFile = new FileInfo(fileName).FullName;
+            return $"Содержимое файла:\n\n{File.ReadAllText(fullPathFile)}";
         }
 
     }
