@@ -5,10 +5,10 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:FileVViewer"
         mc:Ignorable="d"
-        Title="Файл: " Height="450" Width="800">
+        Title="Файл: " Height="480" Width="600" Loaded="Window_Loaded">
     <Grid>
         <ScrollViewer Margin="0">
-            <TextBlock TextWrapping="Wrap" FontSize="14"/>
+            <TextBlock x:Name="FileTextBlock" TextWrapping="Wrap" FontSize="14" Margin="10,0,0,0"/>
         </ScrollViewer>
 
     </Grid>

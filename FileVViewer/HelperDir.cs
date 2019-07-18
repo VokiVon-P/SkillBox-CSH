@@ -8,28 +8,39 @@ using System.Threading.Tasks;
 
 namespace FileVViewer
 {
+    /// <summary>
+    /// Вспомогательный статический класс скрывающий логику работы с файлами и файловой системой
+    /// </summary>
     public static class HelperDir
     {
         static public bool IsFile(string dir) => File.Exists(dir);
 
         private const string UP_DIR = "[ ... ]";
 
-        private static readonly string[] extTxt = new string[] { ".txt", ".ini", ".cmd", ".cfg", ".config", ".cs" };
+        private static readonly string[] extTxt = new string[] { ".txt", ".ini", ".cmd", ".cfg", ".config", ".cs", ".sql" };
         
         static private bool IsRoot(string dir) => Directory.GetCurrentDirectory() == Directory.GetDirectoryRoot(dir);
 
+        /// <summary>
+        /// Проверяет существует ли файл и принадлежит ли множеству обрабатываемых текстовых файлов
+        /// </summary>
+        /// <param name="pathFile"> файл для проверки </param>
+        /// <returns> true - если можем обработать как текстовый </returns>
         static public bool IsTxtFile(string pathFile)
         {
             if (!IsFile(pathFile))
                 return false;
 
-            var info = new FileInfo(pathFile);
-            var extFile = info.Extension;
+            string extFile = new FileInfo(pathFile).Extension;
 
             return Array.Exists(extTxt, element => element == extFile);
         }
         
-
+        /// <summary>
+        /// Получение небольшой системной информации о файле
+        /// </summary>
+        /// <param name="fileName"></param>
+        /// <returns> Форматированная строка с информацией </returns>
         static private string GetSmallFileInfo(string fileName)
         {
             StringBuilder fileInfo = new StringBuilder();
@@ -45,7 +56,12 @@ namespace FileVViewer
 
             return fileInfo.ToString();
         }
-        
+
+        /// <summary>
+        /// Получение небольшой системной информации о директории
+        /// </summary>
+        /// <param name="dirName"></param>
+        /// <returns> Форматированная строка с информацией </returns>
         static private string GetSmallDirInfo(string dirName)
         {
             if (dirName == UP_DIR)
@@ -69,6 +85,11 @@ namespace FileVViewer
             return infoText.ToString();
         }
         
+        /// <summary>
+        /// Служебная функция для установки текущей директории для приложения
+        /// </summary>
+        /// <param name="dir"> путь который нужно сделать текущей директорией </param>
+        /// <returns> путь новой текущей директории </returns>
         static private string SetCurrentDir(string dir)
         {
             if (dir == null)
@@ -90,7 +111,7 @@ namespace FileVViewer
         /// Заполняет список Директориями и файлами и возвращает его
         /// </summary>
         /// <param name="dir">директория для работы, если null то текущая</param>
-        /// <returns></returns>
+        /// <returns> заполненный список </returns>
         static public ObservableCollection<string> GetFileDirList(string dir = null)
         {
 
@@ -115,25 +136,35 @@ namespace FileVViewer
             return listfile;
 
         }
-        
-        static public string GetFileInfo(string fileName)
+
+        /// <summary>
+        /// Формирование системной информации о файле/директории
+        /// </summary>
+        /// <param name="pathName"> путь для обработки </param>
+        /// <returns> Форматированную строку с информацией </returns>
+        static public string GetFileInfo(string pathName)
         {
-            if(IsFile(fileName))
+            if(IsFile(pathName))
             {
-                string text = GetSmallFileInfo(fileName);
-                if (IsTxtFile(fileName))
-                    text += ReadTxtFile(fileName);
+                string text = GetSmallFileInfo(pathName);
+                if (IsTxtFile(pathName))
+                    text += $"Содержимое файла:\n\n{ReadTxtFile(pathName)}";
 
                 return text;
             }
             else 
-              return GetSmallDirInfo(fileName);
+              return GetSmallDirInfo(pathName);
         }
 
+        /// <summary>
+        /// Получение текстового содержимого файла
+        /// </summary>
+        /// <param name="fileName"></param>
+        /// <returns> строка с необработанных содержимым файла </returns>
         static public string ReadTxtFile(string fileName)
         {
             string fullPathFile = new FileInfo(fileName).FullName;
-            return $"Содержимое файла:\n\n{File.ReadAllText(fullPathFile)}";
+            return File.ReadAllText(fullPathFile);
         }
 
     }

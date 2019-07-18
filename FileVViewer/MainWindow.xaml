@@ -23,7 +23,7 @@
                 HorizontalAlignment="Right" VerticalAlignment="Stretch"/>
 
         <ScrollViewer Grid.Column="1">
-            <TextBlock x:Name="RightTextViewer"  TextWrapping="Wrap"/>
+            <TextBlock x:Name="RightTextViewer"  TextWrapping="Wrap" Margin="10,0,0,0"/>
         </ScrollViewer>
     </Grid>
 </Window>

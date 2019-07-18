@@ -23,5 +23,10 @@ namespace FileVViewer
         {
             InitializeComponent();
         }
+        // Заполняем содержимым при открытии
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+            FileTextBlock.Text = HelperDir.ReadTxtFile(Title);
+        }
     }
 }

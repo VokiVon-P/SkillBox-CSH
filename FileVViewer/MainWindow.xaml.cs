@@ -22,7 +22,6 @@ namespace FileVViewer
     public partial class MainWindow : Window
     {
 
-        
         public MainWindow()
         {
             InitializeComponent();
@@ -42,26 +41,39 @@ namespace FileVViewer
             DirFileList.ItemsSource = HelperDir.GetFileDirList(dir);
         }
 
-        private void GetFileInfo(string fileName)
+        /// <summary>
+        /// Открывает отдельное окно с содержимым текстового файла
+        /// </summary>
+        /// <param name="fileName"> название текстового файла </param>
+        private void OpenFileInfo(string fileName)
         {
-            RightTextViewer.Text = HelperDir.GetFileInfo(fileName);
+            if (HelperDir.IsTxtFile(fileName))
+            {
+                new TxtWindow()
+                {
+                    Owner = this,
+                    Title = fileName
+                }.Show();
+            }
         }
 
+        /// <summary>
+        /// Реакция на активность по элементу из списка файлов
+        /// </summary>
         private void SelectedAction()
         {
             string selectedItem = DirFileList.SelectedItem?.ToString();
             if (HelperDir.IsFile(selectedItem))
-                GetFileInfo(selectedItem);
+                OpenFileInfo(selectedItem);
             else
                 GetDir(selectedItem);
         }
 
-
-
+        
+        // далее блок реакций на действия пользователя
 
         private void DirFileList_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            // StringBuilder fileInfo = new StringBuilder();
             
             RightTextViewer.Text = HelperDir.GetFileInfo(DirFileList.SelectedItem?.ToString());
         }
